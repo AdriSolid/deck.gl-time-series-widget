@@ -1,4 +1,4 @@
-# DECK.GL Time Slider Component :hourglass:
+# DECK.GL Time Slider Component :hourglass: [demo](https://github.com/AdriSolid/DECK-GL-Time-Slider)
 
 A React-Redux Time Slider component that allows you to render temporal (or even non-temporal) data. The component is fully integrated with 
 the [DECK.GL](https://deck.gl/#/) library, a WebGL-powered framework for visual exploratory data analysis of large datasets. 
