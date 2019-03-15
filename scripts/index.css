@@ -1,0 +1,21 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mapboxgl-ctrl {
+  display: none !important;
+}
+
+.a.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+  display: none !important;
+}

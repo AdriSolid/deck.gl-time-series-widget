@@ -1,0 +1,67 @@
+$secondary_color: rgb(255, 153, 51);
+
+@mixin cross-browser-flex($direction) {
+    display: flex;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    -webkit-flex-direction: $direction;
+}
+  
+@mixin cross-flex($direction) {
+    @if $direction == 'row' {
+      @include cross-browser-flex(row);
+    } @else if $direction == column {
+      @include cross-browser-flex(column);
+    }
+}
+
+.container {
+    svg {
+        rect {
+          transform: scaleY(-1);  
+          cursor: crosshair;
+        }
+
+        .colored {
+            stroke: grey;
+            stroke-width: 1;
+        }
+
+        .non-colored {
+            stroke: white;
+            stroke-width: .25;
+            stroke-dasharray: 0,50,150;
+
+            &:hover {
+                fill: rgba(255,255,255,.2);
+            }
+        }
+    }
+}
+
+.chart-tooltip {
+    @include cross-flex('column');
+    align-items: flex-start;
+    color: black;
+    background-color: $secondary_color;
+    border-radius: .25rem;
+    padding: .25rem;
+    font-size: .8rem;
+
+    div {
+        b {
+            margin: 0 .25rem 0 .25rem;
+        }
+    }
+}
+
+.show {
+    display: block;
+
+}
+
+.none {
+    display: none;
+}
