@@ -62,7 +62,7 @@ class Main extends Component {
     this.setState({ viewState });
   }
 
-  _renderUnidadesTooltip() {
+  _renderMassTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
     return hoveredObject && (
       <div className="tooltip" style={{ left: pointerX, top: pointerY }}>
@@ -146,7 +146,7 @@ class Main extends Component {
               mapboxApiAccessToken={config.mapboxToken}
             ></ReactMapGL>
           )}
-          {this._renderUnidadesTooltip()}
+          {this._renderMassTooltip()}
         </Deck>
 
         <TimeSlider memory={memory} dateUniques={uniques_date}></TimeSlider>

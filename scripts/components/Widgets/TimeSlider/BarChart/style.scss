@@ -30,9 +30,9 @@ $secondary_color: rgb(255, 153, 51);
         }
 
         .non-colored {
-            stroke: white;
+            stroke: grey;
             stroke-width: .25;
-            stroke-dasharray: 0,50,150;
+            margin: .25rem;
 
             &:hover {
                 fill: rgba(255,255,255,.2);

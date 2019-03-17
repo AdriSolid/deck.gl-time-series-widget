@@ -103,7 +103,7 @@ export default class BarChart extends Component {
                      fill={'transparent'}
                      style={{ width: `calc(95% / ${f[1].length})`, 
                               x: `calc(calc(100% / ${f[1].length}) * ${i})` }} 
-                              y={'-81px'}>
+                              y={'-80px'}>
                   </rect>
                  ]))}
               </svg> 
