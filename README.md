@@ -3,7 +3,7 @@
 A React-Redux Time Slider component that allows you to render temporal (or even non-temporal) data. The component is fully integrated with 
 the [DECK.GL](https://deck.gl/#/) library, a WebGL-powered framework for visual exploratory data analysis of large datasets. 
 
-<img src="./component-thumb.png">
+<img src="./component-gif.gif" alt="Component gif">
 
 This [demo](https://adrisolid.github.io/DECK-GL-Time-Slider/) shows a [scatterplot](https://deck.gl/#/documentation/deckgl-api-reference/layers/scatterplot-layer) meteorites world layer.
 
