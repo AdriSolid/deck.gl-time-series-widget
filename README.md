@@ -10,7 +10,7 @@ This [demo](https://adrisolid.github.io/DECK-GL-Time-Slider/) shows a [scatterpl
 ## Description
 The component uses a simple [Material UI slider](https://material-ui.com/) and keeps the features until the end, that means that it is
 holding the features rendered.
-Some svgs as charts are showing the data per date; an 'on hover' event shows the numeric accumulation in a little left container.
+A bar chart is showing the data per date; an 'on hover' event shows the numeric accumulation in a little left container.
 It is also possible to restart the animation clicking the 'undo' button.
 
 ## To run
