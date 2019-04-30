@@ -10,38 +10,36 @@ import * as config from '../../config/config';
 import './style.scss';
 
 class Main extends Component {
-
   static propTypes = {
     animationValue: PropTypes.array.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-  }
+  };
 
   state = {
     basemap: config.basemap,
-    viewState: config.viewState,
+    viewState: config.VIEWSTATE,
     data: [],
     memory: [],
     uniques_date: []
   };
 
   componentWillMount = () => {
-    axios.get(config.data)
+    axios
+      .get(config.DATA)
       .then(response => {
-        let target = response.data.sort((a, b) => a[config.dateField] - b[config.dateField]);
+        let target = response.data.sort((a, b) => a[config.DATE_FIELD] - b[config.DATE_FIELD]);
         this.setState({
           data: target,
           memory: target,
-          uniques_date: target.map(item => item[config.dateField])
-            .filter((value, index, self) => self.indexOf(value) === index).sort()
+          uniques_date: target
+            .map(item => item[config.DATE_FIELD])
+            .filter((value, index, self) => self.indexOf(value) === index)
+            .sort()
         });
       })
       .catch(err => {
-        throw err
+        throw err;
       });
-  }
+  };
 
   componentWillReceiveProps = nextProps => {
     const { memory } = this.state;
@@ -54,21 +52,27 @@ class Main extends Component {
       let toShow = sliderValue[0] * featuresPerInterval;
       this.setState({
         data: memory.filter((f, i) => i < toShow)
-      })
+      });
     }
-  }
+  };
 
   _onViewStateChange = ({ viewState }) => {
     this.setState({ viewState });
-  }
+  };
 
   _renderMassTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
-    return hoveredObject && (
-      <div className="tooltip" style={{ left: pointerX, top: pointerY }}>
-          <div><b>{hoveredObject[config.nameField]}</b></div>
-          <div>mass:<b>{hoveredObject[config.massField]}</b></div>
-      </div>
+    return (
+      hoveredObject && (
+        <div className="tooltip" style={{ left: pointerX, top: pointerY }}>
+          <div>
+            <b>{hoveredObject[config.NAME_FIELD]}</b>
+          </div>
+          <div>
+            mass:<b>{hoveredObject[config.MASS_FIELD]}</b>
+          </div>
+        </div>
+      )
     );
   }
 
@@ -82,33 +86,34 @@ class Main extends Component {
         pickable: true,
         getPosition: d => d.coordinates,
         getRadius: d => {
-          if (d[config.massField] < config.size.small) {
+          if (d[config.MASS_FIELD] < config.SIZE.SMALL) {
             return 1;
-          } else if (d[config.massField] < config.size.medium) {
+          } else if (d[config.MASS_FIELD] < config.SIZE.MEDIUM) {
             return 2;
-          } else if (d[config.massField] < config.size.big) {
+          } else if (d[config.MASS_FIELD] < config.SIZE.BIG) {
             return 3;
           } else {
             return 5;
           }
         },
         getFillColor: d => {
-          if (d[config.massField] < config.size.small) {
-            return config.massColors[0];
-          } else if (d[config.massField] < config.size.medium) {
-            return config.massColors[1];
-          } else if (d[config.massField] < config.size.big) {
-            return config.massColors[2];
+          if (d[config.MASS_FIELD] < config.SIZE.SMALL) {
+            return config.MASS_COLORS[0];
+          } else if (d[config.MASS_FIELD] < config.SIZE.MEDIUM) {
+            return config.MASS_COLORS[1];
+          } else if (d[config.MASS_FIELD] < config.SIZE.BIG) {
+            return config.MASS_COLORS[2];
           } else {
-            return config.massColors[3];
+            return config.MASS_COLORS[3];
           }
         },
         radiusScale: d => 2 ** (18 - viewState.zoom),
-        onHover: info => this.setState({
-          hoveredObject: info.object,
-          pointerX: info.x,
-          pointerY: info.y
-        })
+        onHover: info =>
+          this.setState({
+            hoveredObject: info.object,
+            pointerX: info.x,
+            pointerY: info.y
+          })
       })
     ];
   }
@@ -143,13 +148,13 @@ class Main extends Component {
               mapStyle={config.basemap}
               preventStyleDiffing={true}
               doubleClickZoom={false}
-              mapboxApiAccessToken={config.mapboxToken}
-            ></ReactMapGL>
+              mapboxApiAccessToken={config.MAPBOX_TOKEN}
+            />
           )}
           {this._renderMassTooltip()}
         </Deck>
 
-        <TimeSlider memory={memory} dateUniques={uniques_date}></TimeSlider>
+        <TimeSlider memory={memory} dateUniques={uniques_date} />
       </div>
     );
   }
@@ -158,7 +163,7 @@ class Main extends Component {
 const mapStateToProps = state => {
   return {
     animationValue: state.animationPlayingReducer.value
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(Main);  
+export default connect(mapStateToProps)(Main);
