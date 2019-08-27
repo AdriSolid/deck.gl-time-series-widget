@@ -1,6 +1,5 @@
 $main_color: rgba(36, 39, 48, 0.8);
 $secondary_color: rgb(255, 153, 51);
-$slider_color: rgb(0, 126, 230);
 
 @mixin direction($direction) {
   flex-direction: $direction;

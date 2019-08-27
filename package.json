@@ -1,10 +1,10 @@
 {
-  "name": "TimeSlider",
+  "name": "deck.gl-time-slider",
   "description": "Time Slider for DECK.GL",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.config.dev.js",
-    "build": "webpack-cli --mode=development --config config/webpack.config.prod.js",
+    "build": "webpack-cli --mode=production --config config/webpack.config.prod.js",
     "precommit": "pretty-quick --staged",
     "pretty-quick": "pretty-quick"
   },

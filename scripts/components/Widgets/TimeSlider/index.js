@@ -4,8 +4,10 @@ import { bindActionCreators } from 'redux';
 import { animationResponse } from '../../../actions/animation';
 import PropTypes from 'prop-types';
 import Slider from '@material-ui/lab/Slider';
+import { withStyles } from '@material-ui/core/styles';
 import iconImg from './img/icon.png';
 import BarChart from '../BarChart';
+import { styles } from './slider-style.js';
 import './style.scss';
 
 class TimeSlider extends Component {
@@ -108,7 +110,10 @@ class TimeSlider extends Component {
   };
 
   _resetSlider = () => {
+    const { maxValue } = this.state;
+
     this.setState({ value: 0 });
+    this.props.animationResponse('animation-value', [0, maxValue]);
   };
 
   _speed = type => {
@@ -163,6 +168,8 @@ class TimeSlider extends Component {
   };
 
   render() {
+    const { classes } = this.props;
+
     const {
       memory,
       currentDay,
@@ -224,7 +231,7 @@ class TimeSlider extends Component {
                 </div>
                 <div>
                   <Slider
-                    className="slider-control"
+                    className={classes.slider}
                     value={value}
                     aria-labelledby="label"
                     onChange={this._handleSliderChange}
@@ -251,4 +258,4 @@ const matchDispatchToProps = dispatch =>
 export default connect(
   null,
   matchDispatchToProps
-)(TimeSlider);
+)(withStyles(styles)(TimeSlider));
