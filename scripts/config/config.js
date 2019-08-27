@@ -9,7 +9,7 @@ export const VIEWSTATE = {
 };
 
 export const MAPBOX_TOKEN =
-  'pk.eyJ1IjoiZG90Z2lzIiwiYSI6ImNpcTBrYzVnbjAwMG1pMG5rNmNwdXQ5Y2gifQ.54ysdXzQSn1E3QXuJARqCw';
+  'pk.eyJ1IjoiYWRyaXNvbGlkIiwiYSI6ImNqNWt4cGczNjJpZW0yd29kYnJxZXhsaHkifQ.Iq48zrXcmg_xE2kZAbxmEQ';
 
 export const DATA =
   'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/icon/meteorites.json';

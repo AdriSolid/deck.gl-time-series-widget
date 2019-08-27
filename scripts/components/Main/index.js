@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactMapGL from 'react-map-gl';
 import Deck, { ScatterplotLayer } from 'deck.gl';
-import { isWebGL2 } from 'luma.gl';
 import TimeSlider from '../Widgets/TimeSlider';
 import axios from 'axios';
 import * as config from '../../config/config';
-import './style.scss';
 
 class Main extends Component {
   static propTypes = {
@@ -22,36 +20,40 @@ class Main extends Component {
     uniques_date: []
   };
 
-  componentWillMount = () => {
+  componentWillMount() {
     axios
       .get(config.DATA)
       .then(response => {
-        let target = response.data.sort((a, b) => a[config.DATE_FIELD] - b[config.DATE_FIELD]);
+        const target = response.data.sort((a, b) => a[config.DATE_FIELD] - b[config.DATE_FIELD]);
+        const date = target
+          .map(item => item[config.DATE_FIELD])
+          .filter((value, index, self) => self.indexOf(value) === index)
+          .sort();
+
         this.setState({
           data: target,
           memory: target,
-          uniques_date: target
-            .map(item => item[config.DATE_FIELD])
-            .filter((value, index, self) => self.indexOf(value) === index)
-            .sort()
+          uniques_date: date
         });
       })
       .catch(err => {
         throw err;
       });
-  };
+  }
 
   componentWillReceiveProps = nextProps => {
     const { memory } = this.state;
     const { animationValue } = this.props;
 
     if (nextProps.animationValue !== animationValue) {
-      let sliderValue = nextProps.animationValue;
-      let total = memory.length;
-      let featuresPerInterval = total / sliderValue[1];
-      let toShow = sliderValue[0] * featuresPerInterval;
+      const sliderValue = nextProps.animationValue;
+      const total = memory.length;
+      const featuresPerInterval = total / sliderValue[1];
+      const toShow = sliderValue[0] * featuresPerInterval;
+      const newData = memory.filter((f, i) => i < toShow);
+
       this.setState({
-        data: memory.filter((f, i) => i < toShow)
+        data: newData
       });
     }
   };
@@ -62,6 +64,7 @@ class Main extends Component {
 
   _renderMassTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
+
     return (
       hoveredObject && (
         <div className="tooltip" style={{ left: pointerX, top: pointerY }}>
@@ -118,15 +121,6 @@ class Main extends Component {
     ];
   }
 
-  _onInitialized(gl) {
-    if (!isWebGL2(gl)) {
-      console.warn('GPU aggregation is not supported');
-      if (this.props.disableGPUAggregation) {
-        this.props.disableGPUAggregation();
-      }
-    }
-  }
-
   render() {
     const { viewState, memory, uniques_date } = this.state;
     const { controller = true, baseMap = true } = this.props;
@@ -136,7 +130,6 @@ class Main extends Component {
         <Deck
           width={'100%'}
           height={'100%'}
-          onWebGLInitialized={this._onInitialized}
           layers={this._renderLayers()}
           viewState={viewState}
           controller={controller}

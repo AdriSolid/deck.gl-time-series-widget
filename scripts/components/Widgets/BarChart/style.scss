@@ -1,35 +1,39 @@
-$secondary_color: rgb(255, 153, 51);
+.bar-chart {
+  &-tooltip {
+    @include style-definition(column, flex-start, null);
+    color: black;
+    background-color: $secondary_color;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    font-size: 0.8rem;
 
-@mixin cross-browser-flex($direction) {
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  -webkit-flex-direction: $direction;
-}
+    div {
+      b {
+        margin: 0 0.25rem 0 0.25rem;
+      }
+    }
 
-@mixin cross-flex($direction) {
-  @if $direction == 'row' {
-    @include cross-browser-flex(row);
-  } @else if $direction == column {
-    @include cross-browser-flex(column);
+    &--open {
+      display: block;
+    }
+
+    &--close {
+      display: none;
+    }
   }
-}
 
-.container {
-  svg {
+  &-svg {
     rect {
       transform: scaleY(-1);
       cursor: crosshair;
     }
 
-    .colored {
+    &-colored {
       stroke: grey;
       stroke-width: 1;
     }
 
-    .non-colored {
+    &-non-colored {
       stroke: grey;
       stroke-width: 0.25;
       margin: 0.25rem;
@@ -39,28 +43,4 @@ $secondary_color: rgb(255, 153, 51);
       }
     }
   }
-}
-
-.chart-tooltip {
-  @include cross-flex('column');
-  align-items: flex-start;
-  color: black;
-  background-color: $secondary_color;
-  border-radius: 0.25rem;
-  padding: 0.25rem;
-  font-size: 0.8rem;
-
-  div {
-    b {
-      margin: 0 0.25rem 0 0.25rem;
-    }
-  }
-}
-
-.show {
-  display: block;
-}
-
-.none {
-  display: none;
 }

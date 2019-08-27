@@ -24,15 +24,15 @@ class TimeSlider extends Component {
     intervalSetter: null,
     isPlaying: false,
     playOrPause: 'play',
-    speedButtonActive: 'speed-button-active',
+    speedButtonActive: 'time-slider-speed-button--active',
     halfSpeedEnabled: false,
     regularSpeedEnabled: true,
     doubleSpeedEnabled: false
   };
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     clearInterval(this.state.intervalSetter);
-  };
+  }
 
   componentWillReceiveProps = nextProps => {
     const { memory, dateUniques } = this.props;
@@ -42,9 +42,9 @@ class TimeSlider extends Component {
     }
 
     if (nextProps.dateUniques !== dateUniques) {
-      let toSplitIn = 8;
-      let interval = nextProps.dateUniques.length / toSplitIn;
-      let target = [];
+      const toSplitIn = 8;
+      const interval = nextProps.dateUniques.length / toSplitIn;
+      const target = [];
 
       for (let i = 0; i < toSplitIn; i++) {
         target.push(nextProps.dateUniques[Math.round(interval * i)]);
@@ -87,13 +87,13 @@ class TimeSlider extends Component {
   _handleAnimation = () => {
     const { playOrPause } = this.state;
 
-    playOrPause == 'play' ? this._handlePlay() : this._handlePause();
+    playOrPause === 'play' ? this._handlePlay() : this._handlePause();
   };
 
   _handlePlay = () => {
     const { sliderDuration } = this.state;
 
-    let intervalId = setInterval(this._animate, sliderDuration);
+    const intervalId = setInterval(this._animate, sliderDuration);
     this.setState({
       intervalSetter: intervalId,
       playOrPause: 'pause'
@@ -107,10 +107,12 @@ class TimeSlider extends Component {
     this.setState({ isPlaying: false, playOrPause: 'play' });
   };
 
-  _resetSlider = () => this.setState({ value: 0 });
+  _resetSlider = () => {
+    this.setState({ value: 0 });
+  };
 
   _speed = type => {
-    if (type == 'half') {
+    if (type === 'half') {
       this.setState(
         {
           sliderDuration: 400,
@@ -123,7 +125,7 @@ class TimeSlider extends Component {
           this._handlePlay();
         }
       );
-    } else if (type == 'regular') {
+    } else if (type === 'regular') {
       this.setState(
         {
           sliderDuration: 200,
@@ -136,7 +138,7 @@ class TimeSlider extends Component {
           this._handlePlay();
         }
       );
-    } else if (type == 'double') {
+    } else if (type === 'double') {
       this.setState(
         {
           sliderDuration: 100,
@@ -156,7 +158,7 @@ class TimeSlider extends Component {
     const { hideContainer } = this.state;
 
     this.setState({
-      hideContainer: hideContainer == 'none' ? '' : 'none'
+      hideContainer: hideContainer === 'time-slider--close' ? '' : 'time-slider--close'
     });
   };
 
@@ -175,16 +177,16 @@ class TimeSlider extends Component {
     } = this.state;
 
     return (
-      <div>
-        <div className="time-slider-widget-button" onClick={this._containerVisibility}>
+      <div className="time-slider">
+        <div className="time-slider-button" onClick={this._containerVisibility}>
           <img src={iconImg} alt="Time-slider Widget icon" />
         </div>
 
-        <div className={`widget-container ${hideContainer}`}>
-          <div className="flex-column">
-            <div className="flex-row labels-container">
+        <div className={`time-slider-container ${hideContainer}`}>
+          <div className="column">
+            <div className="row time-slider-container-labels">
               <div>Reactive meteorites</div>
-              <div className="speed-buttons-container">
+              <div className="speed-buttons">
                 <div
                   className={halfSpeedEnabled ? speedButtonActive : ''}
                   onClick={() => this._speed('half')}
@@ -206,18 +208,18 @@ class TimeSlider extends Component {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="buttons-container flex-row">
-                <div className="main-button" onClick={this._resetSlider}>
+            <div className="row">
+              <div className="control-buttons row">
+                <div className="button" onClick={this._resetSlider}>
                   <i className="icon undo" />
                 </div>
-                <div className="main-button" onClick={this._handleAnimation}>
+                <div className="button" onClick={this._handleAnimation}>
                   <i className={`icon ${playOrPause}`} />
                 </div>
               </div>
 
-              <div className="flex-column">
-                <div className="barChart-container">
+              <div className="slider column">
+                <div className="bar-chart-container">
                   <BarChart memory={memory} />
                 </div>
                 <div>

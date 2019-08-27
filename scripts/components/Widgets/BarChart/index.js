@@ -10,7 +10,7 @@ export default class BarChart extends Component {
 
   state = {
     data: [],
-    popupState: 'none',
+    popupState: 'bar-chart-tooltip--close',
     popupCountInnerHTML: '',
     popupDateInnerHTML: ''
   };
@@ -37,35 +37,38 @@ export default class BarChart extends Component {
         return ar;
       }, []);
 
-      let target = chartCount.map(v => v.count);
-      let dates = chartCount.map(v => v[DATE_FIELD]);
-      let totalValues = target.reduce((v, i) => v + i);
-      let standardize = chartCount.map(v => (v.count * 100) / totalValues);
-      let maxHeight = 80;
+      const target = chartCount.map(v => v.count);
+      const dates = chartCount.map(v => v[DATE_FIELD]);
+      const totalValues = target.reduce((v, i) => v + i);
+      const standardize = chartCount.map(v => (v.count * 100) / totalValues);
+      const maxHeight = 80;
+      const data = standardize.map(v => new Array((v * maxHeight) / 80, target, dates));
 
-      this.setState({ data: standardize.map(v => new Array((v * maxHeight) / 80, target, dates)) });
+      this.setState({ data: data });
     }
   };
 
   _renderTooltip = (e, count, date) => {
     this.setState({
-      popupState: 'show',
+      popupState: 'bar-chart-tooltip--open',
       popupCountInnerHTML: count,
       popupDateInnerHTML: date
     });
   };
 
-  _hideTooltip = () => this.setState({ popupState: 'none' });
+  _hideTooltip = () => {
+    this.setState({ popupState: 'bar-chart-tooltip--close' });
+  };
 
-  _numberWithDots = str => str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  _numberWithDots = v => v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
   render() {
     const { data, popupState, popupCountInnerHTML, popupDateInnerHTML } = this.state;
 
     return (
-      <div className="container">
+      <div className="bar-chart">
         <div
-          className={`chart-tooltip ${popupState}`}
+          className={`bar-chart-tooltip ${popupState}`}
           style={{ position: 'absolute', left: '4px', bottom: '4px' }}
         >
           <div>
@@ -75,12 +78,12 @@ export default class BarChart extends Component {
             year<b>{popupDateInnerHTML}</b>
           </div>
         </div>
-        <svg width="100%" height="80">
+        <svg className="bar-chart-svg" width="100%" height="80">
           {data &&
             data.map((f, i) => [
               <rect
                 key={`colored-${i}`}
-                className="colored"
+                className="bar-chart-svg-colored"
                 onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
                 onMouseOut={this._hideTooltip}
                 height={f[0]}
@@ -93,7 +96,7 @@ export default class BarChart extends Component {
               />,
               <rect
                 key={`non-colored-${i}`}
-                className="non-colored"
+                className="bar-chart-svg-non-colored"
                 onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
                 onMouseOut={this._hideTooltip}
                 height={'70'}

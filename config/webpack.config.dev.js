@@ -14,8 +14,8 @@ module.exports = merge(webpackBaseConfig, {
   devtool: '#eval-source-map',
   devServer: {
     contentBase: path.join(__dirname, '..', 'public'),
-    port: 3000,
-    host: '127.0.0.1',
+    port: 8080,
+    host: 'localhost',
     historyApiFallback: true,
     hot: true
   },

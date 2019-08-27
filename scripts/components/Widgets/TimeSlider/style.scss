@@ -1,203 +1,161 @@
-$main_color: rgba(36, 39, 48, .8);
-$secondary_color: rgb(255, 153, 51);
-$slider_color: rgb(0, 126, 230);
-
-@mixin cross-browser-flex($direction) {
-    display: flex;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    -webkit-flex-direction: $direction;
-}
-  
-@mixin cross-flex($direction) {
-    @if $direction == 'row' {
-      @include cross-browser-flex(row);
-    } @else if $direction == column {
-      @include cross-browser-flex(column);
-    }
-}
-
-.time-slider-widget-button {
+.time-slider {
+  &-button {
     position: absolute;
     top: 1.5rem;
     left: 1.5rem;
 
     img {
-        height: 1.5rem;
-        border-radius: 50%;
-        background-color: $secondary_color;
-        padding: .5rem;
-        cursor: pointer;
+      height: 1.5rem;
+      border-radius: 50%;
+      background-color: $secondary_color;
+      padding: 0.5rem;
+      cursor: pointer;
 
-        &:hover {
-            background-color: darken($secondary_color, 5%);
-        }
+      &:hover {
+        background-color: darken($secondary_color, 5%);
+      }
     }
-}
+  }
 
-.widget-container {
+  &-container {
     position: absolute;
-    @include cross-flex('row');
-    align-items: center;
-    justify-content: flex-end;
+    @include style-definition(row, flex-end, center);
     min-width: 800px;
     max-width: 815px;
     left: 2rem;
     bottom: 2rem;
-    padding: 1rem 1.5rem .5rem 1.5rem;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
     background-color: $main_color;
     border: 1.5px solid $secondary_color;
-    border-radius: .25rem;
-}
+    border-radius: 0.25rem;
 
-.labels-container {
-    color: white;
-    font-size: .85rem;
-}
+    &-labels {
+      color: white;
+      font-size: 0.85rem;
 
-.buttons-container {
-    margin-top: 2rem;
-    margin-right: 1rem;
-}
+      .speed-buttons {
+        @include style-definition(row, flex-end, center);
+        color: lightgrey;
+        font-size: 0.85rem;
 
-.main-button {
-    @include cross-flex('row');
-    align-items: center;
-    justify-content: center;
-    height: .8rem;
-    width: 1.5rem;
-    background-color: lightgrey;
-    padding: .5rem;
-    border-radius: .25rem;
-    margin-right: .15rem;
-    cursor: pointer;
+        div {
+          cursor: pointer;
+          margin-left: 0.5rem;
 
-    &:nth-child(1) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-    &:nth-child(2) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    i {
-        font-size: .8em !important;
-        margin: 0 !important;
-    }
-
-    &:hover {
-        background-color: grey;
-    }
-}
-
-.speed-buttons-container {
-    @include cross-flex('row');
-    align-items: center;
-    justify-content: flex-end;
-    color: lightgrey;
-    font-size: .85rem;
-
-    div {
-        cursor: pointer;
-        margin-left: .5rem;
-        
-        &:hover {
+          &:hover {
             color: darken(white, 10%);
+          }
         }
+      }
     }
-}
 
-.speed-button-active {
+    .control-buttons {
+      margin-top: 2rem;
+      margin-right: 1rem;
+
+      .button {
+        @include style-definition(row, center, center);
+        height: 0.8rem;
+        width: 1.5rem;
+        background-color: lightgrey;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        margin-right: 0.15rem;
+        cursor: pointer;
+
+        &:nth-child(1) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        &:nth-child(2) {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+
+        i {
+          font-size: 0.8em !important;
+          margin: 0 !important;
+        }
+
+        &:hover {
+          background-color: grey;
+        }
+      }
+    }
+  }
+
+  .bar-chart-container {
+    margin-left: 0.5rem;
+  }
+
+  .slider {
+    &-control {
+      padding-left: 6px !important;
+      padding-right: 6px !important;
+
+      div {
+        div {
+          background-color: $slider_color !important;
+
+          button {
+            background-color: $slider_color !important;
+
+            &:after {
+              content: '' !important;
+              border-right: 3px solid $slider_color !important;
+              height: 26px !important;
+              margin-top: -36px !important;
+            }
+          }
+        }
+      }
+    }
+
+    &-labels-container {
+      @include style-definition(row, space-between, null);
+      margin-top: -10px;
+
+      div {
+        font-size: 0.725rem;
+        color: white;
+      }
+    }
+  }
+
+  .column {
+    @include style-definition(column, null, null);
+    width: 100%;
+  }
+
+  .row {
+    @include style-definition(row, space-between, flex-start);
+  }
+
+  &-speed-button--active {
     color: white;
     border-bottom: 1px solid white;
     padding-bottom: 2px;
+  }
+
+  &--close {
+    display: none;
+  }
 }
 
 .MuiSlider-trackBefore-67 {
-    border-top: 91px solid $secondary_color;
-    border-bottom: 1px solid $secondary_color;
-    margin-top: -46px;
-    opacity: .2;
-    cursor: ew-resize;
+  border-top: 91px solid $secondary_color;
+  border-bottom: 1px solid $secondary_color;
+  margin-top: -46px;
+  opacity: 0.2;
+  cursor: ew-resize;
 }
 
 .MuiSlider-root-1 {
-    width: 99% !important;
-    margin: 8px 0 30px 0 !important;
+  width: 99% !important;
+  margin: 8px 0 30px 0 !important;
 }
 
 .MuiSlider-trackAfter-68 {
-    opacity: 1 !important;
-}
-
-.slider-control {
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-
-    div {
-        div {
-            background-color: $slider_color !important;
-
-            button {
-                background-color: $slider_color !important;
-
-                &:after {
-                    content: '' !important;
-                    border-right: 3px solid $slider_color !important;
-                    height: 26px !important;
-                    margin-top: -36px !important;
-                }
-            }
-        } 
-    }
-}
-
-.slider-labels-container {
-    @include cross-flex('row');
-    justify-content: space-between;
-    margin-top: -10px;
-    
-    div {
-        font-size: .725rem;
-        color: white;
-    }
-}
-
-.label-date {
-    @include cross-flex('row');
-    align-items: flex-end;
-    color: white; 
-}
-
-.label-date-static {
-    color: white;
-    font-size: .85rem;
-    margin: .5rem;
-    
-    span {
-        text-decoration: underline;
-    }
-}
-
-.none {
-    display: none;
-}
-
-.flex-column {
-    @include cross-flex('column');
-    width: 100%;
-}
-
-.barChart-container {
-    margin-left: .5rem;
-}
-
-.flex-row {
-    @include cross-flex('row');
-    align-items: flex-start;
-    justify-content: space-between;
+  opacity: 1 !important;
 }
