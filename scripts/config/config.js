@@ -13,6 +13,7 @@ export const MAPBOX_TOKEN =
 
 export const DATA =
   'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/icon/meteorites.json';
+
 export const DATE_FIELD = 'year';
 export const NAME_FIELD = 'name';
 export const MASS_FIELD = 'mass';

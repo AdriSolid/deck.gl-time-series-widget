@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactMapGL from 'react-map-gl';
-import Deck, { ScatterplotLayer } from 'deck.gl';
+import DeckGL, { ScatterplotLayer } from 'deck.gl';
 import TimeSlider from '../Widgets/TimeSlider';
 import axios from 'axios';
 import * as config from '../../config/config';
@@ -127,7 +127,7 @@ class Main extends Component {
 
     return (
       <div>
-        <Deck
+        <DeckGL
           width={'100%'}
           height={'100%'}
           layers={this._renderLayers()}
@@ -145,7 +145,7 @@ class Main extends Component {
             />
           )}
           {this._renderMassTooltip()}
-        </Deck>
+        </DeckGL>
 
         <TimeSlider memory={memory} dateUniques={uniques_date} />
       </div>

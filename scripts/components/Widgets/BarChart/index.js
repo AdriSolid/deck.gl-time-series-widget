@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { DATE_FIELD } from '../../../config/config';
+import { DATE_FIELD, MASS_FIELD } from '../../../config/config';
 import './style.scss';
+
+const maxHeight = 70;
 
 export default class BarChart extends Component {
   static propTypes = {
@@ -19,7 +21,7 @@ export default class BarChart extends Component {
     const { memory } = this.props;
 
     if (nextProps.memory !== memory) {
-      let chartCount = nextProps.memory.reduce((ar, obj) => {
+      const chartCount = nextProps.memory.reduce((ar, obj) => {
         let bool = false;
         if (!ar) {
           ar = [];
@@ -39,10 +41,9 @@ export default class BarChart extends Component {
 
       const target = chartCount.map(v => v.count);
       const dates = chartCount.map(v => v[DATE_FIELD]);
-      const totalValues = target.reduce((v, i) => v + i);
-      const standardize = chartCount.map(v => (v.count * 100) / totalValues);
-      const maxHeight = 80;
-      const data = standardize.map(v => new Array((v * maxHeight) / 80, target, dates));
+
+      const maxValue = Math.max(...target);
+      const data = target.map(v => new Array((maxHeight * v) / maxValue, target, dates));
 
       this.setState({ data: data });
     }
@@ -62,6 +63,12 @@ export default class BarChart extends Component {
 
   _numberWithDots = v => v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
+  _rectStyle = (feature, index) => ({
+    width: `calc(95% / ${feature[1].length})`,
+    x: `calc(calc(100% / ${feature[1].length}) * ${index})`,
+    y: -(maxHeight + 10)
+  });
+
   render() {
     const { data, popupState, popupCountInnerHTML, popupDateInnerHTML } = this.state;
 
@@ -78,36 +85,30 @@ export default class BarChart extends Component {
             year<b>{popupDateInnerHTML}</b>
           </div>
         </div>
-        <svg className="bar-chart-svg" width="100%" height="80">
+        <svg className="bar-chart-svg" width="100%" height={maxHeight + 10}>
           {data &&
-            data.map((f, i) => [
-              <rect
-                key={`colored-${i}`}
-                className="bar-chart-svg-colored"
-                onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
-                onMouseOut={this._hideTooltip}
-                height={f[0]}
-                fill={'#ff9933'}
-                style={{
-                  width: `calc(95% / ${f[1].length})`,
-                  x: `calc(calc(100% / ${f[1].length}) * ${i})`
-                }}
-                y={'-80px'}
-              />,
-              <rect
-                key={`non-colored-${i}`}
-                className="bar-chart-svg-non-colored"
-                onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
-                onMouseOut={this._hideTooltip}
-                height={'70'}
-                fill={'transparent'}
-                style={{
-                  width: `calc(95% / ${f[1].length})`,
-                  x: `calc(calc(100% / ${f[1].length}) * ${i})`
-                }}
-                y={'-80px'}
-              />
-            ])}
+            data.map((f, i) => (
+              <Fragment key={`rect-${i}`}>
+                <rect
+                  key={`colored-${i}`}
+                  className="bar-chart-svg-colored"
+                  onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
+                  onMouseOut={this._hideTooltip}
+                  height={f[0]}
+                  fill={'#ff9933'}
+                  style={this._rectStyle(f, i)}
+                />
+                <rect
+                  key={`non-colored-${i}`}
+                  className="bar-chart-svg-non-colored"
+                  onMouseMove={e => this._renderTooltip(e, f[1][i], f[2][i])}
+                  onMouseOut={this._hideTooltip}
+                  height={maxHeight}
+                  fill={'transparent'}
+                  style={this._rectStyle(f, i)}
+                />
+              </Fragment>
+            ))}
         </svg>
       </div>
     );
