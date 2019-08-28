@@ -31,7 +31,7 @@ git clone https://github.com/AdriSolid/DECK.GL-Time-Slider.git
 npm install
 ```
 
-- Start, check => http://127.0.0.1:3000/
+- Start, check => localhost:8080
 
 ```
 npm start
