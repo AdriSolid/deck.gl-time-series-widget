@@ -3,7 +3,7 @@
 <img src="./app-thumb.png" alt="App thumb">
 
 A React-Redux Time Slider component that allows you to render temporal (or even non-temporal) data. The component is fully integrated with
-the [DECK.GL](https://deck.gl/#/) library, a WebGL-powered framework for visual exploratory data analysis of large datasets.
+the [DECK.GL](https://deck.gl/#/) library, a WebGL-powered framework for visual exploratory data analysis of large datasets. The example is filtering the data array on the CPU.
 
 <img src="./component-gif.gif" alt="Component gif">
 
