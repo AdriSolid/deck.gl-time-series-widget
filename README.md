@@ -1,5 +1,7 @@
 # DECK.GL Time Slider implementation :hourglass: [demo](https://adrisolid.github.io/DECK-GL-Time-Slider/)
 
+<a href='https://ko-fi.com/R6R01NRMJ' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 <img src="./app-thumb.png" alt="App thumb">
 
 A React-Redux Time Slider implementation that allows you to render temporal (or even non-temporal) data. The example is fully integrated with
